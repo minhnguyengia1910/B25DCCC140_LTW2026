@@ -67,6 +67,11 @@ td { vertical-align: top; }
 .answer-button.wrong { border-color: #c0392b; }
 .stars { color: #9a5900; font-size: 24px; }
 .actions { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+.power-ups { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+.answer-button.pointed { border-color: #174c93; outline: 1px solid #174c93; }
+.record { background: #fff3df; padding: 12px; border-left: 4px solid #c4510b; }
+.hint { color: #52616b; font-size: 14px; }
+.danger { color: #aa2635; }
 
 @media (max-width: 640px) {
   .nav-content { flex-direction: column; align-items: flex-start; gap: 10px; }

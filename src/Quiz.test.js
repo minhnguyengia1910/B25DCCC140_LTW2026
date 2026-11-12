@@ -21,6 +21,7 @@ const openApp = async (path = '/') => {
 };
 
 beforeEach(() => {
+  localStorage.clear();
   axios.get.mockResolvedValue({ data: questions });
 });
 

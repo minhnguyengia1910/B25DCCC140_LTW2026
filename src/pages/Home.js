@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-const Home = ({ playerName, setPlayerName }) => {
+const Home = ({ playerName, setPlayerName, history }) => {
   const navigate = useNavigate();
+  const best = [...history].sort((a, b) => b.score - a.score || b.correctCount - a.correctCount)[0];
 
   const handleStart = (event) => {
     event.preventDefault();
@@ -19,7 +20,9 @@ const Home = ({ playerName, setPlayerName }) => {
         <li>Trả lời đúng được 50, 100 hoặc 150 điểm tùy mức độ.</li>
         <li>Mỗi giây còn lại được thưởng thêm 10 điểm nếu trả lời đúng.</li>
         <li>Đúng từ 5 / 9 / 13 câu được xếp loại tương ứng 1 / 2 / 3 sao.</li>
+        <li>Có 3 trợ giúp: Đổi câu hỏi, Nhân đôi và Dừng giờ; mỗi loại dùng một lần.</li>
       </ul>
+      {best && <p className="record">{`Kỷ lục: ${best.score} điểm – ${best.name}`}</p>}
       <form onSubmit={handleStart} className="start-form">
         <label htmlFor="player-name">Tên người chơi</label>
         <input id="player-name" value={playerName} onChange={(event) => setPlayerName(event.target.value)} placeholder="Nhập tên của bạn" />

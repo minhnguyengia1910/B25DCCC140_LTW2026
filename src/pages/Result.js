@@ -29,7 +29,7 @@ const Result = ({ questions, setPlayerName }) => {
             const question = questions.find((item) => item.id === answer.id);
             return (
               <tr key={answer.id} className={answer.correct ? 'correct' : 'wrong'}>
-                <td>{`Câu ${index + 1}`}</td>
+                <td>{`Câu ${index + 1}${answer.originalId && answer.id !== answer.originalId ? ` (đổi sang câu ${answer.id})` : ''}`}</td>
                 <td>{answer.chosen === null ? '—' : LETTERS[answer.chosen]}</td>
                 <td>{LETTERS[question.answer]}</td>
                 <td>{`${answer.timeLeft} giây`}</td><td>{answer.points}</td>

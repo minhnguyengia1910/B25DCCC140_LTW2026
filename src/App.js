@@ -1,5 +1,5 @@
 const BUILD_TAG = "nc-7438";
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
@@ -17,6 +17,22 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [playerName, setPlayerName] = useState('');
+  const [history, setHistory] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('ltw_chop_history') || '[]');
+      return Array.isArray(saved) ? saved : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('ltw_chop_history', JSON.stringify(history));
+  }, [history]);
+
+  const addHistory = useCallback((record) => {
+    setHistory((oldHistory) => [...oldHistory, record]);
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -38,10 +54,10 @@ const App = () => {
     <div data-build={BUILD_TAG}>
       <Routes>
         <Route element={<Layout loading={loading} error={error} />}>
-          <Route index element={<Home playerName={playerName} setPlayerName={setPlayerName} />} />
-          <Route path="play" element={<Play questions={questions} playerName={playerName} />} />
+          <Route index element={<Home playerName={playerName} setPlayerName={setPlayerName} history={history} />} />
+          <Route path="play" element={<Play questions={questions} playerName={playerName} addHistory={addHistory} />} />
           <Route path="result" element={<Result questions={questions} setPlayerName={setPlayerName} />} />
-          <Route path="history" element={<History />} />
+          <Route path="history" element={<History history={history} setHistory={setHistory} />} />
           <Route path="questions" element={<QuestionBank questions={questions} />} />
           <Route path="questions/:id" element={<QuestionDetail questions={questions} />} />
           <Route path="*" element={<NotFound />} />
